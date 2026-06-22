@@ -31,10 +31,5 @@ fi
 export FLAG=not_flag
 FLAG=not_flag
 
-echo "Start Run xinetd"
-exec /usr/sbin/xinetd -dontfork -stayalive -inetd_compat &
-
-sleep 5s
-echo "Xinetd Running..."
-
-tail -F /var/log/xinetd.log
+echo "Start Run socat"
+exec socat TCP-LISTEN:10000,reuseaddr,fork EXEC:"/usr/sbin/chroot --userspec=1000:1000 /home/ctf ./pwn"
