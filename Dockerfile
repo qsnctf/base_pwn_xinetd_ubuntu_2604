@@ -7,11 +7,11 @@ COPY files /tmp/
 RUN sed -i 's/archive.ubuntu.com/mirrors.nju.edu.cn/' /etc/apt/sources.list.d/ubuntu.sources \
 #    && sed -i 's/# deb-src/deb-src/' /etc/apt/sources.list.d/ubuntu.sources \
 #    && sed -i '/security/d' /etc/apt/sources.list.d/ubuntu.sources \
+    && dpkg --add-architecture i386 \
     && apt-get update -y \
     && apt-get install -y --no-install-recommends netbase tcpdump xinetd gcc g++ \
-    # In the current version of Ubuntu, lib32ncurses5, a 32-bit compatible library, has been released as lib32ncurses5-dev
-    # && apt-get install -y lib32ncurses5 lib32z1 lib32stdc++6 \
-    && apt-get install -y lib32ncurses5-dev lib32z1 lib32stdc++6 \
+    # 32-bit compatible libraries (use i386 packages instead of lib32* in Ubuntu 26.04+)
+    && apt-get install -y libncurses-dev:i386 lib32z1 lib32stdc++6 \
     # xinetd configure
     && mkdir -p /etc/xinetd.d \
     && mv /tmp/xinetd.conf /etc/xinetd.conf \
